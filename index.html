@@ -4,203 +4,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MPIRE MV Checker</title>
+<meta name="theme-color" content="#111827">
+<title>MPIRE MV Checker | Market Value Malaysia</title>
 <style>
+:root{--navy:#111827;--navy2:#1e293b;--red:#d52b35;--gold:#d8b46a;--bg:#f1f4f8;--ink:#1e293b;--muted:#64748b;--line:#e2e8f0}
 *{box-sizing:border-box}
-body{margin:0;background:#f1f4f8;color:#1e293b;font:15px Arial,sans-serif}
-header{background:#111827;color:white;padding:28px 18px;border-bottom:5px solid #d52b35}
-.wrap{max-width:900px;margin:auto}
-.logo{color:#e5c477;font-size:22px;font-weight:bold;letter-spacing:2px}
-header h1{margin:22px 0 8px;font-size:30px}
-header p{color:#d1d5db;line-height:1.5}
-main{max-width:900px;margin:22px auto;padding:0 12px}
-.card{background:white;padding:22px;border-radius:14px;margin-bottom:18px;box-shadow:0 4px 18px #0000000b}
-h2{font-size:20px;margin-top:0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Arial,sans-serif}
+header{background:linear-gradient(125deg,var(--navy),var(--navy2));color:#fff;padding:25px 18px 32px;border-bottom:5px solid var(--red)}
+.wrap{max-width:1000px;margin:auto}
+.brand{font-size:21px;font-weight:800;letter-spacing:1.5px;color:var(--gold)}
+.brand small{display:block;font-size:10px;letter-spacing:3px;color:#d1d5db}
+h1{font-size:clamp(26px,5vw,36px);margin:23px 0 8px;line-height:1.2}
+header p{color:#dbe3ef;margin:0;max-width:700px}
+main{max-width:1000px;margin:-16px auto 0;padding:0 13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:22px;margin-bottom:17px;box-shadow:0 6px 22px #0f172a09}
+h2{font-size:19px;margin:0 0 5px;color:var(--navy)}
+.muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .field{display:flex;flex-direction:column;gap:6px}
 .full{grid-column:1/-1}
-label{font-size:13px;font-weight:bold}
-input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:white}
+label{font-weight:700;font-size:13px}
+input,select,textarea{font:inherit;width:100%;min-height:43px;padding:11px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:var(--ink)}
 textarea{min-height:75px}
-button{padding:13px 18px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
-.primary{background:#d52b35;color:white}
-.secondary{background:#e2e8f0;color:#111827}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.note{padding:13px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;color:#9a3412;font-size:13px;line-height:1.5;margin-top:16px}
+input:focus,select:focus,textarea:focus{outline:2px solid #bfdbfe;border-color:#64748b}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:19px}
+button{font:inherit;font-weight:700;border:0;border-radius:8px;padding:12px 17px;cursor:pointer}
+.primary{background:var(--red);color:white}
+.secondary{background:#e2e8f0;color:var(--navy)}
+.notice{padding:13px 14px;border:1px solid #fed7aa;background:#fff7ed;color:#9a3412;border-radius:9px;font-size:13px;margin-top:16px}
 #results{display:none}
-.links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.links a{display:block;padding:14px;border:1px solid #dbe2ea;border-radius:8px;color:#111827;text-decoration:none;font-weight:bold}
-.links a span{display:block;font-size:12px;font-weight:normal;color:#64748b;margin-top:5px}
-footer{text-align:center;color:#64748b;font-size:12px;padding:25px}
-@media(max-width:600px){.grid,.links{grid-template-columns:1fr}header h1{font-size:25px}.card{padding:16px}}
+.summary{border:1px solid var(--line);padding:15px;border-radius:10px;margin-top:14px}
+.summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.value{font-weight:700;overflow-wrap:anywhere}
+.tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#fff7ed;color:#9a3412;font-weight:800;font-size:11px}
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:13px}
+.link{display:block;border:1px solid var(--line);border-radius:9px;padding:13px;text-decoration:none;color:var(--navy);font-weight:700}
+.link span{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:4px}
+.link:hover{border-color:var(--red);background:#fffafa}
+footer{text-align:center;padding:24px 12px 30px;color:var(--muted);font-size:12px}
+@media(max-width:620px){.grid,.links,.summary-grid{grid-template-columns:1fr}.card{padding:16px}h1{font-size:27px}}
 </style>
 </head>
 <body>
-<header><div class="wrap">
-<div class="logo">MPIRE PROPERTIES</div>
-<h1>Market Value Checker</h1>
-<p>Semakan awal nilai pasaran rumah dan tanah di Malaysia.</p>
-</div></header>
+<header>
+ <div class="wrap">
+  <div class="brand">MPIRE PROPERTIES<small>MARKET VALUE CHECKER</small></div>
+  <h1>Semakan Nilai Pasaran Hartanah</h1>
+  <p>Semakan awal untuk rumah dan tanah di seluruh Malaysia. Masukkan maklumat hartanah untuk menyediakan carian pasaran berkaitan.</p>
+ </div>
+</header>
 
 <main>
 <section class="card">
-<h2>01 · Maklumat Hartanah</h2>
-<p>Masukkan maklumat hartanah untuk menyediakan carian pasaran.</p>
-
-<form id="mvform">
-<div class="grid">
-<div class="field full">
-<label>Alamat / Kawasan *</label>
-<input id="address" required placeholder="Contoh: Taman Selasih, Kulim, Kedah">
-</div>
-
-<div class="field">
-<label>Jenis Hartanah *</label>
-<select id="kind">
-<option>Rumah</option><option>Tanah</option>
-</select>
-</div>
-
-<div class="field">
-<label>Kategori *</label>
-<select id="category">
-<option>Teres 1 tingkat</option>
-<option>Teres 2 tingkat</option>
-<option>Semi-D</option>
-<option>Banglo</option>
-<option>Apartment</option>
-<option>Kondominium</option>
-<option>Townhouse</option>
-</select>
-</div>
-
-<div class="field">
-<label>Tenure</label>
-<select id="tenure">
-<option>Tidak pasti</option>
-<option>Freehold</option>
-<option>Leasehold</option>
-<option>Rezab Melayu</option>
-<option>Malay Reserved</option>
-</select>
-</div>
-
-<div class="field">
-<label>Keadaan</label>
-<select id="condition">
-<option>Asal / basic</option>
-<option>Renovated</option>
-<option>Fully renovated</option>
-<option>Tanah kosong</option>
-</select>
-</div>
-
-<div class="field">
-<label>Keluasan Tanah (sqft)</label>
-<input id="land" type="number" min="0" placeholder="Contoh: 1400">
-</div>
-
-<div class="field">
-<label>Keluasan Binaan (sqft)</label>
-<input id="built" type="number" min="0" placeholder="Contoh: 1200">
-</div>
-
-<div class="field">
-<label>Bilik Tidur</label>
-<input id="beds" type="number" min="0" placeholder="Contoh: 3">
-</div>
-
-<div class="field">
-<label>Bilik Air</label>
-<input id="baths" type="number" min="0" placeholder="Contoh: 2">
-</div>
-
-<div class="field">
-<label>Harga Diminta (RM)</label>
-<input id="price" type="number" min="0" placeholder="Contoh: 400000">
-</div>
-
-<div class="field">
-<label>Tarikh Semakan</label>
-<input id="date" type="date">
-</div>
-
-<div class="field full">
-<label>Nota Tambahan</label>
-<textarea id="notes" placeholder="Contoh: lot tengah, lokasi, sekatan tanah atau renovasi"></textarea>
-</div>
-</div>
-
-<div class="actions">
-<button class="primary" type="submit">SEMAK PASARAN</button>
-<button class="secondary" type="reset">KOSONGKAN</button>
-</div>
-</form>
-
-<div class="note">
-<strong>Penting:</strong> Anggaran MV yang tepat memerlukan data transaksi atau data pasaran yang boleh disahkan. Harga iklan ialah harga diminta, bukan semestinya harga jualan sebenar. Sistem ini belum disambungkan kepada pangkalan data transaksi automatik.
-</div>
+ <h2>01 · Maklumat Hartanah</h2>
+ <p class="muted">Isi maklumat yang diketahui. Alamat dan jenis hartanah wajib diisi.</p>
+ <form id="mvForm">
+  <div class="grid">
+   <div class="field full">
+    <label for="address">Alamat / Kawasan *</label>
+    <input id="address" required placeholder="Contoh: Taman Selasih, Kulim, Kedah">
+   </div>
+   <div class="field">
+    <label for="kind">Jenis Hartanah *</label>
+    <select id="kind">
+     <option value="Rumah">Rumah</option>
+     <option value="Tanah">Tanah</option>
+    </select>
+   </div>
+   <div class="field">
+    <label for="category">Kategori *</label>
+    <select id="category">
+     <option>Teres 1 tingkat</option>
+     <option>Teres 2 tingkat</option>
+     <option>Semi-D</option>
+     <option>Banglo</option>
+     <option>Apartment</option>
+     <option>Kondominium</option>
+     <option>Townhouse</option>
+    </select>
+   </div>
+   <div class="field">
+    <label for="tenure">Tenure</label>
+    <select id="tenure">
+     <option>Tidak pasti</option>
+     <option>Freehold</option>
+     <option>Leasehold</option>
+     <option>Rezab Melayu</option>
+     <option>Malay Reserved</option>
+    </select>
+   </div>
+   <div class="field">
+    <label for="condition">Keadaan</label>
+    <select id="condition">
+     <option>Asal / basic</option>
+     <option>Renovated</option>
+     <option>Fully renovated</option>
+     <option>Under construction</option>
+     <option>Tanah kosong</option>
+    </select>
+   </div>
+   <div class="field">
+    <label for="land">Keluasan Tanah (sqft)</label>
+    <input id="land" type="number" min="0" placeholder="Contoh: 1400">
+   </div>
+   <div class="field">
+    <label for="built">Keluasan Binaan (sqft)</label>
+    <input id="built" type="number" min="0" placeholder="Contoh: 1200">
+   </div>
+   <div class="field">
+    <label for="beds">Bilik Tidur</label>
+    <input id="beds" type="number" min="0" placeholder="Contoh: 3">
+   </div>
+   <div class="field">
+    <label for="baths">Bilik Air</label>
+    <input id="baths" type="number" min="0" placeholder="Contoh: 2">
+   </div>
+   <div class="field">
+    <label for="asking">Harga Diminta (RM)</label>
+    <input id="asking" type="number" min="0" placeholder="Contoh: 400000">
+   </div>
+   <div class="field">
+    <label for="date">Tarikh Semakan</label>
+    <input id="date" type="date">
+   </div>
+   <div class="field full">
+    <label for="notes">Nota Tambahan</label>
+    <textarea id="notes" placeholder="Contoh: lot tengah, berdekatan sekolah, bentuk tanah atau renovasi"></textarea>
+   </div>
+  </div>
+  <div class="actions">
+   <button class="primary" type="submit">SEMAK PASARAN</button>
+   <button class="secondary" type="reset">KOSONGKAN</button>
+  </div>
+ </form>
+ <div class="notice">
+  <strong>Makluman:</strong> Website ini belum disambungkan kepada API data transaksi atau portal hartanah secara langsung. Ia menyediakan pautan carian dan ringkasan maklumat, bukan MV automatik yang telah disahkan.
+ </div>
 </section>
 
 <section class="card" id="results">
-<h2>02 · Maklumat Semakan</h2>
-<div id="summary"></div>
-<div class="note">MV belum disahkan. Gunakan sumber di bawah untuk menyemak maklumat pasaran berkaitan hartanah ini.</div>
-<h3>Sumber Carian Pasaran</h3>
-<div class="links" id="links"></div>
+ <h2>02 · Hasil Semakan</h2>
+ <p class="muted">Semak maklumat hartanah dan buka sumber pasaran yang berkaitan.</p>
+ <div id="summary" class="summary"></div>
+ <div class="notice">
+  <strong>Anggaran MV:</strong> Belum dapat disahkan tanpa data pasaran yang sah. Harga iklan ialah harga diminta dan tidak semestinya sama dengan harga transaksi sebenar.
+ </div>
+ <h3>Sumber Carian Pasaran</h3>
+ <p class="muted">Pautan di bawah membuka carian web. Hasil carian perlu diperiksa dan disahkan secara manual.</p>
+ <div id="links" class="links"></div>
 </section>
 </main>
 
-<footer>MPIRE PROPERTIES · Semakan awal sahaja, bukan laporan penilaian rasmi.</footer>
+<footer>
+ MPIRE PROPERTIES · Semakan awal untuk rujukan sahaja.<br>
+ Bukan laporan penilaian rasmi oleh penilai berdaftar.
+</footer>
 
 <script>
-const $=id=>document.getElementById(id);
-$("date").value=new Date().toISOString().slice(0,10);
+const $ = id => document.getElementById(id);
+
+function setToday(){
+ const now = new Date();
+ $("date").value = new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+}
+setToday();
 
 $("kind").addEventListener("change",()=>{
- const land=$("kind").value==="Tanah";
- $("category").innerHTML=(land
- ?["Tanah kediaman","Tanah pertanian","Tanah komersial","Tanah industri","Lain-lain"]
- :["Teres 1 tingkat","Teres 2 tingkat","Semi-D","Banglo","Apartment","Kondominium","Townhouse","Lain-lain"])
- .map(x=>`<option>${x}</option>`).join("");
+ const isLand = $("kind").value === "Tanah";
+ const options = isLand
+  ? ["Tanah kediaman","Tanah pertanian","Tanah komersial","Tanah industri","Lain-lain"]
+  : ["Teres 1 tingkat","Teres 2 tingkat","Semi-D","Banglo","Apartment","Kondominium","Townhouse","Lain-lain"];
+ $("category").innerHTML = options.map(x=>`<option>${x}</option>`).join("");
+ $("beds").disabled = isLand;
+ $("baths").disabled = isLand;
+ $("built").disabled = isLand;
+ if(isLand){
+  $("condition").value = "Tanah kosong";
+ }else if($("condition").value === "Tanah kosong"){
+  $("condition").value = "Asal / basic";
+ }
 });
 
-$("mvform").addEventListener("submit",e=>{
+function esc(value){
+ return String(value ?? "").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+function num(value){
+ return value ? Number(value).toLocaleString("en-MY") : "Tidak dinyatakan";
+}
+
+$("mvForm").addEventListener("submit",e=>{
  e.preventDefault();
+
  const address=$("address").value.trim();
  const kind=$("kind").value;
  const category=$("category").value;
- const query=address+" "+category+" "+kind+" Malaysia";
- const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const query=`${address} ${category} ${kind} Malaysia`;
+ const fields=[
+  ["Jenis",`${kind} · ${category}`],
+  ["Tenure",$("tenure").value],
+  ["Keadaan",$("condition").value],
+  ["Keluasan tanah",$("land").value?num($("land").value)+" sqft":"Tidak dinyatakan"],
+  ["Keluasan binaan",$("built").value?num($("built").value)+" sqft":"Tidak dinyatakan"],
+  ["Bilik tidur",$("beds").value||"Tidak dinyatakan"],
+  ["Bilik air",$("baths").value||"Tidak dinyatakan"],
+  ["Harga diminta",$("asking").value?"RM "+num($("asking").value):"Tidak dinyatakan"],
+  ["Tarikh semakan",$("date").value||"Tidak dinyatakan"],
+  ["Nota",$("notes").value||"Tiada"]
+ ];
 
  $("summary").innerHTML=`
- <p><strong>Alamat:</strong> ${esc(address)}</p>
- <p><strong>Jenis:</strong> ${esc(kind)} · ${esc(category)}</p>
- <p><strong>Tenure:</strong> ${esc($("tenure").value)}</p>
- <p><strong>Keluasan tanah:</strong> ${esc($("land").value||"Tidak dinyatakan")} sqft</p>
- <p><strong>Keluasan binaan:</strong> ${esc($("built").value||"Tidak dinyatakan")} sqft</p>
- <p><strong>Keadaan:</strong> ${esc($("condition").value)}</p>
- <p><strong>Harga diminta:</strong> ${$("price").value?"RM "+Number($("price").value).toLocaleString("en-MY"):"Tidak dinyatakan"}</p>
- <p><strong>Tarikh semakan:</strong> ${esc($("date").value)}</p>
- <p><strong>Anggaran MV:</strong> Belum dapat disahkan tanpa data pasaran yang sah.</p>`;
+  <span class="tag">MV BELUM DISAHKAN</span>
+  <h3>${esc(address)}</h3>
+  <div class="summary-grid">
+   ${fields.map(([label,value])=>`<div><div class="muted">${esc(label)}</div><div class="value">${esc(value)}</div></div>`).join("")}
+  </div>`;
 
  const searches=[
- ["Google · Iklan Jualan",query+" untuk dijual harga"],
- ["Google · Transaksi",address+" transaksi hartanah harga jualan"],
- ["PropertyGuru", "site:propertyguru.com.my "+query+" dijual"],
- ["iProperty","site:iproperty.com.my "+query+" dijual"],
- ["Mudah.my","site:mudah.my "+query+" dijual"],
- ["JPPH / NAPIC","JPPH NAPIC data transaksi hartanah "+address]
+  ["Google · Iklan Jualan",query+" untuk dijual harga","Cari iklan semasa yang berkaitan"],
+  ["Google · Transaksi",address+" transaksi hartanah harga jualan Malaysia","Cari maklumat harga jual beli"],
+  ["PropertyGuru","site:propertyguru.com.my "+query+" dijual","Cari iklan melalui carian web"],
+  ["iProperty","site:iproperty.com.my "+query+" dijual","Cari iklan melalui carian web"],
+  ["Mudah.my","site:mudah.my "+query+" dijual","Cari iklan melalui carian web"],
+  ["JPPH / NAPIC","JPPH NAPIC data transaksi hartanah "+address,"Cari sumber transaksi rasmi"],
+  ["Laporan pasaran","laporan pasaran hartanah Malaysia "+address,"Cari laporan pasaran berkaitan"]
  ];
- $("links").innerHTML=searches.map(([name,q])=>
- `<a target="_blank" rel="noopener" href="https://www.google.com/search?q=${encodeURIComponent(q)}">${name}<span>Buka carian berkaitan ↗</span></a>`
- ).join("");
+
+ $("links").innerHTML=searches.map(([title,search,desc])=>{
+  const url="https://www.google.com/search?q="+encodeURIComponent(search);
+  return `<a class="link" href="${url}" target="_blank" rel="noopener noreferrer">${esc(title)}<span>${esc(desc)} ↗</span></a>`;
+ }).join("");
+
  $("results").style.display="block";
- $("results").scrollIntoView({behavior:"smooth"});
+ $("results").scrollIntoView({behavior:"smooth",block:"start"});
 });
 
-$("mvform").addEventListener("reset",()=>{
- setTimeout(()=>{$("results").style.display="none";},0);
+$("mvForm").addEventListener("reset",()=>{
+ setTimeout(()=>{
+  $("results").style.display="none";
+  $("beds").disabled=false;
+  $("baths").disabled=false;
+  $("built").disabled=false;
+  $("kind").value="Rumah";
+  $("category").innerHTML=["Teres 1 tingkat","Teres 2 tingkat","Semi-D","Banglo","Apartment","Kondominium","Townhouse","Lain-lain"].map(x=>`<option>${x}</option>`).join("");
+  setToday();
+ },0);
 });
 </script>
 </body>
